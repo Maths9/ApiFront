@@ -1,46 +1,42 @@
 <template>
   <div>
     <button type="button" @click="fetchMensagens">Get Mensagens</button>
-    <h1>Mensagens</h1>
-    <ul>
-      <li v-for="mensagem in mensagens" :key="mensagem">{{ mensagem.mensagem }}</li>
-    </ul>
+      <h1>Mensagens</h1>
 
-    <h1>Usuários</h1>
-    <ul>
-      <li v-for="usuario in usuarios" :key="usuario">{{ usuario.id }} - {{ usuario.nome }}</li>
-    </ul>
+    <button type="button" @click="fetchUsuarios">Get Usuarios</button>
+      <h1>Usuarios</h1>
 
-    <h1>Produtos</h1>
-    <ul>
-      <li v-for="produto in produtos" :key="produto">{{ produto.nome }} - {{ produto.detalhes }}</li>
-    </ul>
-
+    <button type="button" @click="fetchProdutos">Get Produtos</button>
+      <h1>Produtos</h1>
+    
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import axios from 'axios';
+import { ref, reactive } from 'vue';
+import axios from './services/axiosConfig';
 
 const mensagens = ref([]); 
   
 const usuarios = ref([]); 
-  fetchUsuarios();
+
 const produtos = ref([]);
-  fetchProdutos();  
+ 
 
 async function fetchMensagens() {
-    const response = await axios.get('http://127.0.0.1:8000/mensagens/');
+    const response = await axios.get('/mensagens');
     mensagens.value = response.data;
+    console.log(mensagens.value);
 }
 async function fetchUsuarios() {
-    const response = await axios.get('http://127.0.0.1:8000/usuarios/');
+    const response = await axios.get('/usuarios');
     usuarios.value = response.data;
+    console.log(usuarios.value);
 }
 async function fetchProdutos() {
-    const response = await axios.get('http://127.0.0.1:8000/produtos/');
+    const response = await axios.get('/produtos');
     produtos.value = response.data;
+    console.log(produtos.value);
 }
 
 
