@@ -1,15 +1,22 @@
 <template>
     <div>
-      <h1>Rotas</h1>
-      <p>{{ mensagens }}</p>
-      <button @click="mensagens_fetchData">Carregar Mensagens</button>
+      <div id="cards">
+      <v-card title="Rota Usuarios" variant="outlined">
+        <p>{{ usuarios }}</p>
+          <v-btn variant="tonal" @click="usuarios_fetchData">Carregar usuários</v-btn>
+      </v-card>
 
-      <p>{{ usuarios }}</p>
-      <button @click="usuarios_fetchData">Carregar Usuários</button>
+      <v-card title="Rota Produtos" variant="outlined">
+        <p>{{ produtos }}</p>
+          <v-btn variant="tonal" @click="produtos_fetchData">Carregar Produtos</v-btn>
+      </v-card>
 
-      <p>{{ produtos }}</p>
-      <button @click="produtos_fetchData">Carregar Produtos</button>
+      <v-card title="Rota Mensagens" variant="outlined">
+        <p>{{ mensagens }}</p>
+          <v-btn variant="tonal" @click="mensagens_fetchData">Carregar Mensagens</v-btn>
+      </v-card>
 
+      </div>
     </div>
   </template>
   
@@ -42,6 +49,19 @@
   </script>
   
   <style scoped>
-  /* Adicione seu estilo aqui, se necessário */
+  
+  #cards{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: darkslategray
+    
+    
+  
+  }
+  .v-btn{
+    background-color: black
+  }
   </style>
   
