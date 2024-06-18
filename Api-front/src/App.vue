@@ -1,16 +1,22 @@
 <template>
-  <div>
-    <nav>
-      <ul>
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/Rotas"> Rotas</router-link></li>
-      </ul>
-    </nav>
+ 
+    <v-toolbar id="toolbar" border title="Application">
+      <div> 
+        <router-link to="/">Home</router-link>
+        <router-link to="/Rotas"> Rotas</router-link>
+        <router-link to="/Criar"> Criar</router-link>
+      </div>
+      
+    </v-toolbar>
+  
     <router-view></router-view> 
-  </div>
+
+    
+ 
 </template>
 
 <script setup lang="ts">
+
 import { ref } from 'vue';
 import api from './services/axiosConfig'; // Ajuste o caminho conforme necessário
 
