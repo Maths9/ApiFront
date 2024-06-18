@@ -53,6 +53,7 @@ html,
   font-variation-settings: normal;
   /* 6 */
   -webkit-tap-highlight-color: transparent;
+  background-color: cadetblue;
   /* 7 */
 }
 
@@ -424,7 +425,7 @@ audio,
 iframe,
 embed,
 object {
-  display: block;
+  display: flex;
   /* 1 */
   vertical-align: middle;
   /* 2 */
@@ -564,6 +565,13 @@ video {
   align-content: space-between;
   text-decoration-line: none;
   padding-inline-end: 15%;
+  display: flex;
+}
+
+.v-container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 a {

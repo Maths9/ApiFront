@@ -1,6 +1,6 @@
 <template>
-    <v-sheet class="bg-deep-purple pa-12" rounded>
-      <v-card class="mx-auto px-6 py-8" max-width="344">
+    <v-sheet class="bg-deep-purple pa-16" rounded>
+      <v-card class="mx-auto px-9 py-16" max-height="800" max-width="500">
         <v-form v-model="form" @submit.prevent="onSubmit">
           <v-text-field
             v-model="email"
@@ -65,7 +65,7 @@
     flex-direction: column;
     align-items: center;
     background-color: darkslategray;
-    width: 100%;
+ 
   }
   
   .bg-deep-purple.pa-12 {
