@@ -454,6 +454,7 @@ a {
   color: black;
   transition: 0.4s;
   padding: 3px;
+  padding-right: 5%;
 }
 
 @media (hover: hover) {
