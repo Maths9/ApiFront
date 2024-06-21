@@ -43,13 +43,13 @@ export default {
     });
 
     const nomeRules = [
-      v => !!v || 'Nome é obrigatório',
-      v => (v && v.length >= 3) || 'Nome deve ter pelo menos 3 caracteres',
+      (      v: any) => !!v || 'Nome é obrigatório',
+      (      v: string | any[]) => (v && v.length >= 3) || 'Nome deve ter pelo menos 3 caracteres',
     ];
 
     const senhaRules = [
-      v => !!v || 'Senha é obrigatória',
-      v => (v && v.length >= 6) || 'Senha deve ter pelo menos 6 caracteres',
+      (      v: any) => !!v || 'Senha é obrigatória',
+      (      v: string | any[]) => (v && v.length >= 6) || 'Senha deve ter pelo menos 6 caracteres',
     ];
 
     const clearErrors = () => {
@@ -77,9 +77,10 @@ export default {
 
         // Redirecionar o usuário para a página inicial ou para a página protegida
         router.push('/Rotas');
-      } catch (error) {
+      } catch (err) {
+        const error = err as { response?: any; request?: any; message?: string }; // Afirmação de tipo
         if (error.response) {
-          console.error('Erro ao fazer cadastro:', error.response.data);
+          console.error('Erro ao fazer login:', error.response.data);
           if (error.response.status === 401) {
             senha.value.errorMessage = 'Credenciais inválidas';
           } else {
@@ -95,7 +96,7 @@ export default {
           console.error('Erro ao configurar a requisição:', error.message);
         }
       }
-    };
+    }
 
     return {
       nome,

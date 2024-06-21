@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/Home.vue';
 import Rotas from '../components/Rotas.vue';
-import Criar from '../components/CriarProdutos.vue';
+import CriarProdutos from '../components/CriarProdutos.vue';
 
 const routes = [
   {
@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/CriarProdutos',
     name: 'CriarProdutos',
-    component: Criar
+    component: CriarProdutos
   }
   
 ];
