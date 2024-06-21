@@ -1,63 +1,113 @@
 <template>
-    <v-sheet class="bg-deep-purple pa-16" rounded>
-      <v-card class="mx-auto px-9 py-16" max-height="800" max-width="500">
-        <v-form v-model="form" @submit.prevent="onSubmit">
-          <v-text-field
-            v-model="email"
-            :readonly="loading"
-            :rules="[required]"
-            class="mb-2"
-            label="Email"
-            clearable
-          ></v-text-field>
+    <div class="card-cadastro">
+    <v-sheet class="mx-auto" width="400"> 
+      <v-form ref="form" @submit.prevent="cadastro">
+        <v-text-field
+          v-model="nome.value"
+          :rules="nomeRules"
+          label="Name"
+          required
+        ></v-text-field>
   
-          <v-text-field
-            v-model="password"
-            :readonly="loading"
-            :rules="[required]"
-            label="Password"
-            placeholder="Enter your password"
-            clearable
-          ></v-text-field>
+        <v-text-field
+          v-model="senha.value"
+          :rules="senhaRules"
+          label="Senha"
+          type="password"
+          required
+        ></v-text-field>
   
-          <br>
-  
-          <v-btn
-            :disabled="!form"
-            :loading="loading"
-            color="success"
-            size="large"
-            type="submit"
-            variant="elevated"
-            block
-          >
-            Sign In
-          </v-btn>
-        </v-form>
-      </v-card>
+        <v-btn class="mt-2" type="submit" block>Criar Cadastro</v-btn>
+      </v-form>
     </v-sheet>
+</div>
   </template>
   
-  <script setup lang="ts">
-  import { ref } from 'vue';
-  
-  const form = ref(false);
-  const email = ref('');
-  const password = ref('');
-  const loading = ref(false);
-  
-  const onSubmit = () => {
-    if (!form.value) return;
-  
-    loading.value = true;
-  
-    setTimeout(() => (loading.value = false), 2000);
-  };
-  
-  const required = (v: any) => {
-    return !!v || 'Field is required';
-  };
+  <script lang="ts">
+    import router from '@/routers';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import api from '../services/axiosConfig';
+
+export default {
+  name: 'cadastroComponent',
+  setup() {
+    const nome = ref({
+      value: '',
+      errorMessage: '',
+    });
+
+    const senha = ref({
+      value: '',
+      errorMessage: '',
+    });
+
+    const nomeRules = [
+      v => !!v || 'Nome é obrigatório',
+      v => (v && v.length >= 3) || 'Nome deve ter pelo menos 3 caracteres',
+    ];
+
+    const senhaRules = [
+      v => !!v || 'Senha é obrigatória',
+      v => (v && v.length >= 6) || 'Senha deve ter pelo menos 6 caracteres',
+    ];
+
+    const clearErrors = () => {
+      nome.value.errorMessage = '';
+      senha.value.errorMessage = '';
+    };
+
+    const router = useRouter(); // Usa o hook useRouter para obter a instância do roteador
+
+    const cadastro = async () => {
+      clearErrors();
+
+      const data = {
+        nome: nome.value.value,
+        senha: senha.value.value,
+      };
+
+      try {
+        const response = await api.post('/login', data); // Ajuste o endpoint conforme necessário
+        console.log('cadastro bem-sucedido:', response.data);
+        alert('cadastro bem-sucedido');
+        
+        // Exemplo de armazenamento de token de autenticação
+        localStorage.setItem('token', response.data.token);
+
+        // Redirecionar o usuário para a página inicial ou para a página protegida
+        router.push('/Rotas');
+      } catch (error) {
+        if (error.response) {
+          console.error('Erro ao fazer cadastro:', error.response.data);
+          if (error.response.status === 401) {
+            senha.value.errorMessage = 'Credenciais inválidas';
+          } else {
+            const errors = error.response.data.errors;
+            if (errors) {
+              if (errors.nome) nome.value.errorMessage = errors.nome[0];
+              if (errors.senha) senha.value.errorMessage = errors.senha[0];
+            }
+          }
+        } else if (error.request) {
+          console.error('Erro na requisição:', error.request);
+        } else {
+          console.error('Erro ao configurar a requisição:', error.message);
+        }
+      }
+    };
+
+    return {
+      nome,
+      senha,
+      nomeRules,
+      senhaRules,
+      cadastro,
+    };
+  },
+};
   </script>
+  
   
   <style scoped>
   #home {
@@ -65,11 +115,15 @@
     flex-direction: column;
     align-items: center;
     background-color: darkslategray;
- 
   }
   
   .bg-deep-purple.pa-12 {
     background-color: darkslategrey;
   }
+
+  div.card-cadastro {
+    padding-top: 15%
+  }
+    
   </style>
   

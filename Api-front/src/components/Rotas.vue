@@ -68,7 +68,7 @@
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
-    background-color: darkslategray;
+    
     text-align: center;
     color: aliceblue
     
