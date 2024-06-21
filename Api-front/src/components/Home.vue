@@ -1,130 +1,108 @@
 <template>
-    <div class="card-cadastro">
-    <v-sheet class="mx-auto" width="400"> 
-      <v-form ref="form" @submit.prevent="cadastro">
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer">
+      <router-link to="/">Home</router-link>
+      <router-link to="/Rotas"> Rotas</router-link>
+      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
+    </v-navigation-drawer>
+
+    <v-app-bar>
+      <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
+      <v-app-bar-title>Application</v-app-bar-title>
+      <router-link to="/">Home</router-link>
+      <router-link to="/Rotas"> Rotas</router-link>
+      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
+    </v-app-bar>
+
+    <v-main>
+      <v-form @submit.prevent="cadastro">
         <v-text-field
           v-model="nome.value"
           :rules="nomeRules"
-          label="Name"
-          required
+          label="Nome"
+          
         ></v-text-field>
-  
         <v-text-field
           v-model="senha.value"
           :rules="senhaRules"
           label="Senha"
+          
           type="password"
-          required
         ></v-text-field>
-  
-        <v-btn class="mt-2" type="submit" block>Criar Cadastro</v-btn>
+        <v-btn type="submit">Cadastrar</v-btn>
       </v-form>
-    </v-sheet>
-</div>
-  </template>
-  
-  <script lang="ts">
-    import router from '@/routers';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import api from '../services/axiosConfig';
+    </v-main>
+  </v-app>
+</template>
 
-export default {
-  name: 'cadastroComponent',
-  setup() {
-    const nome = ref({
-      value: '',
-      errorMessage: '',
-    });
+<script lang="ts" setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import api from "../services/axiosConfig";
 
-    const senha = ref({
-      value: '',
-      errorMessage: '',
-    });
+const drawer = ref(false);
 
-    const nomeRules = [
-      (      v: any) => !!v || 'Nome é obrigatório',
-      (      v: string | any[]) => (v && v.length >= 3) || 'Nome deve ter pelo menos 3 caracteres',
-    ];
-
-    const senhaRules = [
-      (      v: any) => !!v || 'Senha é obrigatória',
-      (      v: string | any[]) => (v && v.length >= 6) || 'Senha deve ter pelo menos 6 caracteres',
-    ];
-
-    const clearErrors = () => {
-      nome.value.errorMessage = '';
-      senha.value.errorMessage = '';
-    };
-
-    const router = useRouter(); // Usa o hook useRouter para obter a instância do roteador
-
-    const cadastro = async () => {
-      clearErrors();
-
-      const data = {
-        nome: nome.value.value,
-        senha: senha.value.value,
-      };
-
-      try {
-        const response = await api.post('/login', data); // Ajuste o endpoint conforme necessário
-        console.log('cadastro bem-sucedido:', response.data);
-        alert('cadastro bem-sucedido');
-        
-        // Exemplo de armazenamento de token de autenticação
-        localStorage.setItem('token', response.data.token);
-
-        // Redirecionar o usuário para a página inicial ou para a página protegida
-        router.push('/Rotas');
-      } catch (err) {
-        const error = err as { response?: any; request?: any; message?: string }; // Afirmação de tipo
-        if (error.response) {
-          console.error('Erro ao fazer login:', error.response.data);
-          if (error.response.status === 401) {
-            senha.value.errorMessage = 'Credenciais inválidas';
-          } else {
-            const errors = error.response.data.errors;
-            if (errors) {
-              if (errors.nome) nome.value.errorMessage = errors.nome[0];
-              if (errors.senha) senha.value.errorMessage = errors.senha[0];
-            }
-          }
-        } else if (error.request) {
-          console.error('Erro na requisição:', error.request);
-        } else {
-          console.error('Erro ao configurar a requisição:', error.message);
-        }
-      }
-    }
-
-    return {
-      nome,
-      senha,
-      nomeRules,
-      senhaRules,
-      cadastro,
-    };
-  },
+const toggleDrawer = () => {
+  drawer.value = !drawer.value;
 };
-  </script>
+
+const nome = ref({
+  value: "",
+  errorMessage: "",
+});
+
+const senha = ref({
+  value: "",
+  errorMessage: "",
+});
+
+const nomeRules = [
+  (v: any) => !!v || "Nome é obrigatório",
+  (v: string | any[]) =>
+    (v && v.length >= 3) || "Nome deve ter pelo menos 3 caracteres",
+];
+
+const senhaRules = [
+  (v: any) => !!v || "Senha é obrigatória",
+  (v: string | any[]) =>
+    (v && v.length >= 6) || "Senha deve ter pelo menos 6 caracteres",
+];
+
+const clearErrors = () => {
+  nome.value.errorMessage = "";
+  senha.value.errorMessage = "";
+};
+
+const router = useRouter();
+
+const cadastro = async () => {
+  clearErrors();
+
+  const data = {
+    nome: nome.value.value,
+    senha: senha.value.value,
+  };
+
   
+    const response = await api.post("/login", data); // Ajuste o endpoint conforme necessário
+    console.log("cadastro bem-sucedido:", response.data);
+    alert("cadastro bem-sucedido");
+
+    localStorage.setItem("token", response.data.token);
+    router.push("/Rotas");
   
-  <style scoped>
-  #home {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: darkslategray;
-  }
-  
-  .bg-deep-purple.pa-12 {
-    background-color: darkslategrey;
+    
   }
 
-  div.card-cadastro {
-    padding-top: 15%
-  }
-    
-  </style>
-  
+</script>
+
+<style scoped>
+div.card-cadastro {
+  padding-top: 15%;
+}
+.v-form {
+  margin-top: 10%;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+</style>

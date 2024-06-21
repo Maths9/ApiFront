@@ -1,83 +1,107 @@
 <template>
-    <div>
-      <div id="cards">
-      <v-card title="Rota Usuarios" variant="outlined">
-        <p>{{ usuarios }}</p>
-          <v-btn variant="tonal" @click="usuarios_fetchData">Carregar usuários</v-btn>
-      </v-card>
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer">
+      <router-link to="/">Home</router-link>
+      <router-link to="/Rotas"> Rotas</router-link>
+      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
+    </v-navigation-drawer>
 
-      <v-card title="Rota Produtos" variant="outlined">
-        <p>{{ produtos }}</p>
-          <v-btn variant="tonal" @click="produtos_fetchData">Carregar Produtos</v-btn>
-      </v-card>
+    <v-app-bar>
+      <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
+      <v-app-bar-title>Application</v-app-bar-title>
+      <router-link to="/">Home</router-link>
+      <router-link to="/Rotas"> Rotas</router-link>
+      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
+    </v-app-bar>
 
-      <v-card title="Rota Mensagens" variant="outlined">
-        <p>{{ mensagens }}</p>
-          <v-btn variant="tonal" @click="mensagens_fetchData">Carregar Mensagens</v-btn>
-      </v-card>
+    <v-main>
+      <div>
+        <div id="cards">
+          <v-card title="Rota Usuarios" variant="outlined">
+            <p>{{ usuarios }}</p>
+            <v-btn variant="tonal" @click="usuarios_fetchData"
+              >Carregar usuários</v-btn
+            >
+          </v-card>
 
-      <v-card title="Rota Users" variant="outlined">
-        <p>{{ login }}</p>
-          <v-btn variant="tonal" @click="login_fetchData">Carregar Users</v-btn>
-      </v-card>
+          <v-card title="Rota Produtos" variant="outlined">
+            <p>{{ produtos }}</p>
+            <v-btn variant="tonal" @click="produtos_fetchData"
+              >Carregar Produtos</v-btn
+            >
+          </v-card>
 
+          <v-card title="Rota Mensagens" variant="outlined">
+            <p>{{ mensagens }}</p>
+            <v-btn variant="tonal" @click="mensagens_fetchData"
+              >Carregar Mensagens</v-btn
+            >
+          </v-card>
+
+          <v-card title="Rota Users" variant="outlined">
+            <p>{{ login }}</p>
+            <v-btn variant="tonal" @click="login_fetchData"
+              >Carregar Users</v-btn
+            >
+          </v-card>
+        </div>
       </div>
-    </div>
-  </template>
-  
-  <script setup lang="ts">
-  import { ref } from 'vue';
-  import api from '../services/axiosConfig';
+    </v-main>
+  </v-app>
+</template>
 
+<script setup lang="ts">
+import { ref } from "vue";
+import api from "../services/axiosConfig";
 
-  const produtos = ref('');
-  const produtos_fetchData = async () => {
-      const response = await api.get('/produtos'); 
-      produtos.value = response.data;
-      console.log(response.data);
-  }
+const drawer = ref(false);
 
-  const usuarios = ref('');
-  const usuarios_fetchData = async () => {
-      const response = await api.get('/usuarios'); 
-      usuarios.value = response.data;
-      console.log(response.data);
-  }  
+const toggleDrawer = () => {
+  drawer.value = !drawer.value;
+};
 
-  const mensagens = ref('');
-  const mensagens_fetchData = async () => {
-      const response = await api.get('/mensagens'); 
-      mensagens.value = response.data;
-      console.log(response.data);
-  }
+const produtos = ref("");
+const produtos_fetchData = async () => {
+  const response = await api.get("/produtos");
+  produtos.value = response.data;
+  console.log(response.data);
+};
 
-  const login = ref('');
-  const login_fetchData = async () => {
-      const response = await api.get('/login'); 
-      login.value = response.data;
-      console.log(response.data);
-  }
+const usuarios = ref("");
+const usuarios_fetchData = async () => {
+  const response = await api.get("/usuarios");
+  usuarios.value = response.data;
+  console.log(response.data);
+};
 
+const mensagens = ref("");
+const mensagens_fetchData = async () => {
+  const response = await api.get("/mensagens");
+  mensagens.value = response.data;
+  console.log(response.data);
+};
 
-  </script>
-  
-  <style scoped>
-  
-  #cards{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
-    
-    text-align: center;
-    color: aliceblue
-    
-  
-  }
- 
-  .v-btn{
-    background-color: rgb(7, 18, 46);
-    color: white;
-  }
-  </style>
-  
+const login = ref("");
+const login_fetchData = async () => {
+  const response = await api.get("/login");
+  login.value = response.data;
+  console.log(response.data);
+};
+</script>
+
+<style scoped>
+#cards {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  text-align: center;
+  color: rgb(0, 24, 44);
+}
+
+.v-btn {
+  background-color: rgb(12, 49, 72);
+  color: white;
+}
+</style>

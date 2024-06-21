@@ -1,137 +1,121 @@
 <template>
-    <form @submit.prevent="submit"  >
-      <v-text-field 
-        v-model="nome.value"
-        :counter="10"
-        :error-messages="nome.errorMessage"
-        label="Nome"
-      ></v-text-field>
-  
-      <v-text-field
-        v-model="id.value"
-        :counter="3"
-        :error-messages="id.errorMessage"
-        label="id Number"
-      ></v-text-field>
-  
-      <v-text-field
-        v-model="detalhes.value"
-        :error-messages="detalhes.errorMessage"
-        label="detalhes"
-      ></v-text-field>
-  
-      <v-text-field
-        v-model="preco.value"
-        :error-messages="preco.errorMessage"
-        :items="items"
-        label="preco"
-      ></v-text-field>
-  
-      <v-btn class="me-4" type="submit">CriarProdutos</v-btn>
-  
-      <v-btn @click="handleReset">clear</v-btn>
-    </form>
-  </template>
-  
-  <script>
- 
-  import { ref } from 'vue';
-  import api from '../services/axiosConfig';
-  
-  export default {
-    nome: 'FormComponent',
-    setup() {
-      const nome = ref({
-        value: '',
-        errorMessage: '',
-      });
-  
-      const id = ref({
-        value: '',
-        errorMessage: '',
-      });
-  
-      const detalhes = ref({
-        value: '',
-        errorMessage: '',
-      });
-  
-      const preco = ref({
-        value: null,
-        errorMessage: '',
-      });
-  
-      const handleReset = () => {
-        nome.value.value = '';
-        id.value.value = '';
-        detalhes.value.value = '';
-        preco.value.value = null;
-        
-        clearErrors();
-      };
-  
-      const clearErrors = () => {
-        nome.value.errorMessage = '';
-        id.value.errorMessage = '';
-        detalhes.value.errorMessage = '';
-        preco.value.errorMessage = '';
-       
-      };
-  
-      const submit = async () => {
-        clearErrors();
-  
-        const data = {
-          nome: nome.value.value,
-          id: id.value.value,
-          detalhes: detalhes.value.value,
-          preco: preco.value.value,
-         
-        };
-  
-        try {
-          const response = await api.post('/produtos', data);
-          console.log(response.data);
-          handleReset();
-        } catch (error) {
-          if (error.response) {
-            console.error('Erro ao buscar produtos:', error.response.data);
-            // Aqui você pode definir mensagens de erro específicas para cada campo
-            const errors = error.response.data.errors;
-            if (errors) {
-              if (errors.nome) nome.value.errorMessage = errors.nome[0];
-              if (errors.id) id.value.errorMessage = errors.id[0];
-              if (errors.detalhes) detalhes.value.errorMessage = errors.detalhes[0];
-              if (errors.preco) preco.value.errorMessage = errors.preco[0];
-              
-            }
-          } else if (error.request) {
-            console.error('Erro na requisição:', error.request);
-          } else {
-            console.error('Erro ao configurar a requisição:', error.message);
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer">
+      <!--  -->
+    </v-navigation-drawer>
+
+    <v-app-bar>
+      <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
+      <v-app-bar-title>Application</v-app-bar-title>
+      <router-link to="/">Home</router-link>
+      <router-link to="/Rotas"> Rotas</router-link>
+      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
+    </v-app-bar>
+
+    <v-main>
+      <v-form @submit.prevent="cadastro">
+        <v-text-field
+          v-model="nome.value"
+          :rules="nomeRules"
+          label="Nome"
+          :error-messages="nome.errorMessage"
+        ></v-text-field>
+        <v-text-field
+          v-model="senha.value"
+          :rules="senhaRules"
+          label="Senha"
+          :error-messages="senha.errorMessage"
+          type="password"
+        ></v-text-field>
+        <v-btn type="submit">Cadastrar</v-btn>
+      </v-form>
+    </v-main>
+  </v-app>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import api from '../services/axiosConfig';
+
+const drawer = ref(false);
+
+const toggleDrawer = () => {
+  drawer.value = !drawer.value;
+};
+
+const nome = ref({
+  value: '',
+  errorMessage: '',
+});
+
+const senha = ref({
+  value: '',
+  errorMessage: '',
+});
+
+const nomeRules = [
+  (v: any) => !!v || 'Nome é obrigatório',
+  (v: string | any[]) => (v && v.length >= 3) || 'Nome deve ter pelo menos 3 caracteres',
+];
+
+const senhaRules = [
+  (v: any) => !!v || 'Senha é obrigatória',
+  (v: string | any[]) => (v && v.length >= 6) || 'Senha deve ter pelo menos 6 caracteres',
+];
+
+const clearErrors = () => {
+  nome.value.errorMessage = '';
+  senha.value.errorMessage = '';
+};
+
+const router = useRouter();
+
+const cadastro = async () => {
+  clearErrors();
+
+  const data = {
+    nome: nome.value.value,
+    senha: senha.value.value,
+  };
+
+  try {
+    const response = await api.post('/login', data); // Ajuste o endpoint conforme necessário
+    console.log('cadastro bem-sucedido:', response.data);
+    alert('cadastro bem-sucedido');
+    
+    localStorage.setItem('token', response.data.token);
+    router.push('/Rotas');
+  } catch (err) {
+    if (err instanceof Error && 'response' in err) {
+      const error = err as { response?: any; request?: any; message?: string }; // Afirmação de tipo
+      if (error.response) {
+        console.error('Erro ao fazer login:', error.response.data);
+        if (error.response.status === 401) {
+          senha.value.errorMessage = 'Credenciais inválidas';
+        } else {
+          const errors = error.response.data.errors;
+          if (errors) {
+            if (errors.nome) nome.value.errorMessage = errors.nome[0];
+            if (errors.senha) senha.value.errorMessage = errors.senha[0];
           }
         }
-      };
-  
-      return {
-        nome,
-        id,
-        detalhes,
-        preco,
-        submit,
-        handleReset,
-      };
-    },
-  };
-  </script>
+      } else if (error.request) {
+        console.error('Erro na requisição:', error.request);
+      } else {
+        console.error('Erro ao configurar a requisição:', error.message);
+      }
+    } else {
+      console.error('Erro desconhecido:', err);
+    }
+  }
+};
+</script>
+
   
   <style scoped>
-   form{
-    margin-top: 5%;
-    background-color: rgb(12, 114, 114),
-    color(white)
-    
-   }
+   
+ 
   </style>
   
   

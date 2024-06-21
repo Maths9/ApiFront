@@ -11,8 +11,8 @@ import * as directives from 'vuetify/directives'
 const app = createApp(App)
 
 const vuetify = createVuetify({
-  components,
-  directives,
+    components,
+    directives,
 })
 
 app.config.globalProperties.$axios = axios;
@@ -21,10 +21,10 @@ createApp(App)
     .use(router)
     .use(vuetify)
     .mount('#app')
-    
 
 
 
 
-    
+
+
 
