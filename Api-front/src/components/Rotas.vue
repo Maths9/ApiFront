@@ -99,9 +99,9 @@ const login_fetchData = async () => {
   text-align: center;
   color: rgb(0, 24, 44);
 }
-
 .v-btn {
   background-color: rgb(12, 49, 72);
   color: white;
 }
+
 </style>

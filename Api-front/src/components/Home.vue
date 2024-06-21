@@ -105,4 +105,8 @@ div.card-cadastro {
   padding-left: 20%;
   padding-right: 20%;
 }
+.v-btn {
+  background-color: rgb(12, 49, 72);
+  color: white;
+}
 </style>

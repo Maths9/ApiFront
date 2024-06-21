@@ -114,7 +114,10 @@ const cadastro = async () => {
 
   
   <style scoped>
-   
+   .v-btn {
+  background-color: rgb(12, 49, 72);
+  color: white;
+}
  
   </style>
   

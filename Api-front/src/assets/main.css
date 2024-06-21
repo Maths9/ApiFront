@@ -448,6 +448,10 @@ form {
   margin-top: 10%;
   background-color: rgb(12, 114, 114),
 }
+.v-btn {
+  background-color: rgb(12, 49, 72);
+  color: white;
+}
 
 a {
   text-decoration: none;
@@ -459,7 +463,7 @@ a {
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    
     border-radius: 40%;
   }
 }
