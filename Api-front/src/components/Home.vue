@@ -1,20 +1,7 @@
 <template>
-  <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer">
-      <router-link to="/">Home</router-link>
-      <router-link to="/Rotas"> Rotas</router-link>
-      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
-    </v-navigation-drawer>
+  <v-app  id="inspire">
 
-    <v-app-bar>
-      <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
-      <v-app-bar-title>Application</v-app-bar-title>
-      <router-link to="/">Home</router-link>
-      <router-link to="/Rotas"> Rotas</router-link>
-      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
-    </v-app-bar>
-
-    <v-main>
+    <v-main >
       <v-form @submit.prevent="cadastro">
         <v-text-field
           v-model="nome.value"
@@ -99,14 +86,16 @@ const cadastro = async () => {
 <style scoped>
 div.card-cadastro {
   padding-top: 15%;
+
 }
 .v-form {
   margin-top: 10%;
   padding-left: 20%;
   padding-right: 20%;
+ 
 }
-.v-btn {
-  background-color: rgb(12, 49, 72);
-  color: white;
+.v-btn { background-color: rgb(12, 49, 72);
+  
+ 
 }
 </style>

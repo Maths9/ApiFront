@@ -1,19 +1,5 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer">
-      <router-link to="/">Home</router-link>
-      <router-link to="/Rotas"> Rotas</router-link>
-      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
-    </v-navigation-drawer>
-
-    <v-app-bar>
-      <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
-      <v-app-bar-title>Application</v-app-bar-title>
-      <router-link to="/">Home</router-link>
-      <router-link to="/Rotas"> Rotas</router-link>
-      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
-    </v-app-bar>
-
     <v-main>
       <div>
         <div id="cards">
@@ -54,12 +40,6 @@
 import { ref } from "vue";
 import api from "../services/axiosConfig";
 
-const drawer = ref(false);
-
-const toggleDrawer = () => {
-  drawer.value = !drawer.value;
-};
-
 const produtos = ref("");
 const produtos_fetchData = async () => {
   const response = await api.get("/produtos");
@@ -91,6 +71,7 @@ const login_fetchData = async () => {
 
 <style scoped>
 #cards {
+  padding-top: 10%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
