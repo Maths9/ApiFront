@@ -307,9 +307,20 @@ video {
   margin-right: auto;
   margin-left: auto;
 }
-
+nav{
+  text-align: center;
+  padding: 1%;
+ 
+}
 .v-main {
   background-color: rgb(160, 157, 157);
+}
+
+.v-application {
+  display: flex;
+  background: rgb(var(--v-theme-background));
+  color: rgba(var(--v-theme-background), var(--v-high-emphasis-opacity));
+
 }
 
 form {
@@ -322,6 +333,8 @@ form {
   background-color: rgb(12, 49, 72);
   color: rgb(0, 0, 0);
 }
+
+
 
 a {
   text-decoration: none;

@@ -1,7 +1,10 @@
 <template>
   <v-app theme="dark">
    <v-main>
-    <v-navigation-drawer v-model="drawer">
+    <v-navigation-drawer v-model="drawer" id="nav">
+      <router-link to="/">Home</router-link>
+      <router-link to="/Rotas"> Rotas</router-link>
+      <router-link to="/CriarProdutos"> CriarProdutos</router-link>
       <!--  -->
     </v-navigation-drawer>
 
@@ -31,6 +34,7 @@ const toggleDrawer = () => {
 
 </script>
 
+<style scoped>
 
 
-<style scoped></style>
+</style>
